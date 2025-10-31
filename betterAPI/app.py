@@ -9,4 +9,4 @@ def home():
 # import betterAPI.controller.userlogin as userlogin
 # from controller import userlogin,usersignup 
 
-from controller import *
+from controller import userlogin_C, usersignup_C
