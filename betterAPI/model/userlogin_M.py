@@ -7,6 +7,7 @@ class userlogin_M:
         try:
             self.con = mysql.connector.connect(host="localhost", user="Shradha", password="Shradha1402@", database="learningapi")
             self.curr = self.con.cursor(dictionary=True)
+            self.con.autocommit = True; 
             print("Connection Successful")
         except mysql.connector.Error as e:
             print("Connection Failed", e)
@@ -22,3 +23,40 @@ class userlogin_M:
         # return "User Login Model Page"
         except mysql.connector.Error as e:
             return f"Error fetching data: {e}"
+        
+
+    def userlogin_post_model(self,data):
+        try:
+            query = "INSERT INTO USERACC (user_name, user_pass) VALUES (%s, %s)"
+            values = (data['user_name'], data['user_pass'])
+            self.curr.execute(query, values)
+            return "User added successfully"
+        except mysql.connector.Error as e:
+            return f"Error inserting data: {e}"
+        
+    
+    def userlogin_put_model(self,data):
+        try: 
+            query = "UPDATE USERACC SET user_name=%s, user_pass=%s WHERE id = %s"
+            values = (data['user_name'], data['user_pass'], data['id'])
+            self.curr.execute(query, values)
+            if self.curr.rowcount>0:
+                return "goood"
+            else: 
+                return "No record found to update"
+        except mysql.connector.Error as e:
+            return f"Error updating data: {e}"
+        
+
+    def userlogin_delete_model(self, id):
+        try: 
+            query = "DELETE FROM useracc WHERE id=%s"
+            values = (id,)
+            self.curr.execute(query, values)
+            if self.curr.rowcount>0:
+                return "Deleted Successfully"
+            else:
+                return "No record found to delete"
+            
+        except mysql.connector.Error as e:
+            return f"Error deleting data: {e}"
