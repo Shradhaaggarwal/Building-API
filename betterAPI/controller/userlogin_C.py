@@ -32,3 +32,8 @@ def userlogin_delete(id):
 def userlogin_patch(id):
     print("user login patch controller is running successfully")
     return obj.userlogin_patch_model(request.form, id)
+
+@app.route('/userlogin/get/limit/<limit>/pageno/<pgno>')
+def userlogin_pagination(limit, pgno):
+    print("User Login Pagination Controller Accessed")
+    return obj.userlogin_pagination_model(limit, pgno); 

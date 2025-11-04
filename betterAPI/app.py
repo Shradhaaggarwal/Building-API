@@ -1,4 +1,6 @@
 from flask import Flask
+from controller import userlogin_C, usersignup_C
+
 app = Flask(__name__)
 
 
@@ -12,4 +14,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-from controller import userlogin_C, usersignup_C

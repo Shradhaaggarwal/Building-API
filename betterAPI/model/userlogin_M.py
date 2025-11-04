@@ -80,4 +80,21 @@ class userlogin_M:
                 return {"message":"No record found to patch"}
         except mysql.connector.Error as e:
             return f"Error patching data: {e}"
+        
+
+    def userlogin_pagination_model(self, limit, pgno):
+        limit = int(limit)
+        pgno = int(pgno)
+        try:
+            offset = pgno*limit - limit;
+            query = "SELECT * FROM useracc LIMIT %s OFFSET %s"
+            values = (limit, offset);
+            self.curr.execute(query, values)
+            result = self.curr.fetchall()
+            if(len(result)>0):
+                return make_response({"data": result, "limit": limit, "pageno": pgno}, 200)
+            else:
+                return make_response({"message":"No data found"}, 202)
+        except mysql.connector.Error as e:
+            return f"Error: {e}"
             
