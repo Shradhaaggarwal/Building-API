@@ -25,4 +25,10 @@ def userlogin_put():
 @app.route('/userlogin/delete/<id>', methods = ['DELETE'])
 def userlogin_delete(id):
     print("user login delete controller is running successfully")
-    return obj.userlogin_delete_model(id);
+    return obj.userlogin_delete_model(id); 
+
+
+@app.route('/userlogin/patch/<id>', methods= ['PATCH'])
+def userlogin_patch(id):
+    print("user login patch controller is running successfully")
+    return obj.userlogin_patch_model(request.form, id)

@@ -1,7 +1,7 @@
 #model mai muje 2 code likhne pdege, ik connection ke liye aur ik operations ke liye, isliye connection wala toh constructor m dal dege
 import json
 import mysql.connector
-
+from flask import make_response; 
 class userlogin_M:  
     def __init__(self):
         try:
@@ -17,9 +17,10 @@ class userlogin_M:
             self.curr.execute("SELECT * FROM useracc")
             result = self.curr.fetchall()
             if len(result) > 0:
-                return result
+                # return result
+                return make_response({"data": result}, 200) #200 is status code for success
             else:
-                return "No Data Found"
+                return {"message":"No Data Found"}
         # return "User Login Model Page"
         except mysql.connector.Error as e:
             return f"Error fetching data: {e}"
@@ -30,7 +31,7 @@ class userlogin_M:
             query = "INSERT INTO USERACC (user_name, user_pass) VALUES (%s, %s)"
             values = (data['user_name'], data['user_pass'])
             self.curr.execute(query, values)
-            return "User added successfully"
+            return {"message":"User added successfully"}
         except mysql.connector.Error as e:
             return f"Error inserting data: {e}"
         
@@ -41,9 +42,9 @@ class userlogin_M:
             values = (data['user_name'], data['user_pass'], data['id'])
             self.curr.execute(query, values)
             if self.curr.rowcount>0:
-                return "goood"
+                return {"message":"goood"}
             else: 
-                return "No record found to update"
+                return {"message":"No record found to update"}
         except mysql.connector.Error as e:
             return f"Error updating data: {e}"
         
@@ -54,9 +55,29 @@ class userlogin_M:
             values = (id,)
             self.curr.execute(query, values)
             if self.curr.rowcount>0:
-                return "Deleted Successfully"
+                return {"message":"Deleted Successfully"}
             else:
-                return "No record found to delete"
+                return {"message":"No record found to delete"}
             
         except mysql.connector.Error as e:
             return f"Error deleting data: {e}"
+        
+
+    def userlogin_patch_model(self, data, id):
+        try:
+            query = "UPDATE useracc SET "
+            
+            for key in data:
+                query += f"{key}= '{data[key]}',"
+            
+            query = query[:-1] + " WHERE id=%s"
+            values = (id,)
+            self.curr.execute(query, values)
+            # return query
+            if self.curr.rowcount>0:
+                return {"message":"Patched Successfully"}
+            else:
+                return {"message":"No record found to patch"}
+        except mysql.connector.Error as e:
+            return f"Error patching data: {e}"
+            
