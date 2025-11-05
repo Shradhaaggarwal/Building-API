@@ -1,5 +1,4 @@
 from flask import Flask
-from controller import userlogin_C, usersignup_C
 
 app = Flask(__name__)
 
@@ -12,5 +11,9 @@ def home():
 # from controller import userlogin,usersignup 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+from controller import userlogin_C, usersignup_C
+
 
 
