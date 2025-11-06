@@ -1,5 +1,7 @@
 #model mai muje 2 code likhne pdege, ik connection ke liye aur ik operations ke liye, isliye connection wala toh constructor m dal dege
 import json
+import jwt
+from datetime import datetime, timedelta 
 import mysql.connector
 from flask import make_response; 
 class userlogin_M:  
@@ -95,6 +97,23 @@ class userlogin_M:
                 return make_response({"data": result, "limit": limit, "pageno": pgno}, 200)
             else:
                 return make_response({"message":"No data found"}, 202)
+        except mysql.connector.Error as e:
+            return f"Error: {e}"
+        
+    def userlogin_check_model(self, data):
+        try:
+            query = "SELECT id, user_name, role_id, pp_path FROM useracc WHERE user_name = %s AND user_pass = %s";
+            values = (data['user_name'], data['user_pass']);
+            self.curr.execute(query, values);
+            res = self.curr.fetchall();
+            userdata = (res[0] if len(res)>0 else None)
+            exp_date = int((datetime.now() + timedelta(minutes=15)).timestamp())
+            payload = {
+                "data" : userdata,
+                "exp": exp_date
+            }
+            jwttoken = jwt.encode(payload, "shradha", algorithm="HS256")
+            return make_response({"token": jwttoken}, 200)
         except mysql.connector.Error as e:
             return f"Error: {e}"
             

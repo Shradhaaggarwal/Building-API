@@ -38,3 +38,8 @@ def userlogin_pagination(limit, pgno):
     print("User Login Pagination Controller Accessed")
     return obj.userlogin_pagination_model(limit, pgno); 
 
+@app.route('/userlogin/logincheck', methods=['POST'])
+def userlogin_check():
+    print("User Login Check Controller Accessed")
+    return obj.userlogin_check_model(request.form);
+
