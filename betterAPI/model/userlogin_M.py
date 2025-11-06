@@ -122,4 +122,16 @@ class userlogin_M:
             return make_response({"token": jwttoken}, 200)
         except mysql.connector.Error as e:
             return f"Error: {e}"
-            
+        
+    def userlogin_addmultiple_model(self, data):
+        try:
+            query = "INSERT INTO useracc (user_name, user_pass, role_id) VALUES (%s, %s, %s)"
+            values = []
+            for rec in data:
+                values.append((rec['user_name'], rec['user_pass'], rec['role_id']))
+            self.curr.executemany(query, values)
+            # res = self.curr.fetchall ()
+            # query = query[:-1]
+            return make_response({"message":"ADDED SUCCESSFULLY", "count": self.curr.rowcount}, 200)
+        except mysql.connector.Error as e:
+            return f"Error inserting multiple records: {e}"           

@@ -49,3 +49,9 @@ def userlogin_check():
     print("User Login Check Controller Accessed")
     return obj.userlogin_check_model(request.form);
 
+
+@app.route('/userlogin/addmultiple', methods=['POST'])
+def userlogin_addmultiple():
+    print("User Login Add Multiple Controller Accessed")
+    return obj.userlogin_addmultiple_model(request.get_json())
+
