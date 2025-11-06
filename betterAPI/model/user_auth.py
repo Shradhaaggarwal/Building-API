@@ -12,10 +12,12 @@ class userAuth_M:
         except mysql.connector.Error as e:
                 print("Connection Failed", e)
 
-    def token_auth_model(self, endpoint):
+    def token_auth_model(self, endpoint=""):
          def inner1(func):
             @wraps(func)
             def inner2(*args):
+                endpoint = request.url_rule
+                print("Endpoint Accessed:", endpoint)
                 authorization = request.headers.get('Authorization')
                 if re.match(r"^Bearer\s+(.+)$", authorization, flags=0):
                     token = authorization.split(" ")[1]

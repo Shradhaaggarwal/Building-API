@@ -7,28 +7,28 @@ obj = userlogin_M();
 objauth = userAuth_M(); 
 
 @app.route('/userlogin/get')
-@objauth.token_auth_model("/userlogin/get")
+@objauth.token_auth_model()
 def userlogin():
     print("User Login Controller Accessed")
     return obj.userlogin_model(); 
 
 
 @app.route('/userlogin/post', methods=['POST'])
-@objauth.token_auth_model("/userlogin/post")
+@objauth.token_auth_model()
 def userlogin_post():
     print("user login post controller is running successfully")
     return obj.userlogin_post_model(request.form); 
 
 
 @app.route('/userlogin/put', methods=['PUT'])
-@objauth.token_auth_model("/userlogin/put")
+@objauth.token_auth_model()
 def userlogin_put():
     print("user login put controller is running successfully")
     return obj.userlogin_put_model(request.form); 
 
 
 @app.route('/userlogin/delete/<id>', methods = ['DELETE'])
-@objauth.token_auth_model("/userlogin/delete/<id>")
+@objauth.token_auth_model()
 def userlogin_delete(id):
     print("user login delete controller is running successfully")
     return obj.userlogin_delete_model(id); 
