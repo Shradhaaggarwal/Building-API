@@ -103,13 +103,17 @@ class userlogin_M:
     def userlogin_check_model(self, data):
         try:
             query = "SELECT id, user_name, role_id, pp_path FROM useracc WHERE user_name = %s AND user_pass = %s";
-            values = (data['user_name'], data['user_pass']);
-            self.curr.execute(query, values);
-            res = self.curr.fetchall();
-            userdata = (res[0] if len(res)>0 else None)
+            values = (data['user_name'], data['user_pass'])
+            self.curr.execute(query, values)
+            res = self.curr.fetchall()
+            if len(res) == 0:
+                return make_response({"message": "Invalid username or password"}, 401)
+            userdata = res[0]
             exp_date = int((datetime.now() + timedelta(minutes=15)).timestamp())
             payload = {
-                "data" : userdata,
+                "id": userdata['id'],
+                "user_name": userdata['user_name'],
+                "role_id": userdata['role_id'],
                 "exp": exp_date
             }
             jwttoken = jwt.encode(payload, "shradha", algorithm="HS256")
