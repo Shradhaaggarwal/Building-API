@@ -1,13 +1,13 @@
 import mysql.connector
 from flask import make_response
-
+from config.config import dbconfig
 class usersignup_M:
 
     def __init__(self):
         try:
-            self.con = mysql.connector.connect(host = 'localhost', user = 'Shradha', password = 'Shradha1402@', database = 'learningapi')
-            self.curr = self.con.cursor(dictionary=True)
-            self.con.autocommit = True;
+            self.conn = mysql.connector.connect(host=dbconfig['host'], user=dbconfig['user'], password= dbconfig['password'] , database=dbconfig['database'])
+            self.curr = self.conn.cursor(dictionary=True)
+            self.conn.autocommit = True;
             print("Connection Successful")
         except mysql.connector.Error as e:
             print("Connection Failed", e)

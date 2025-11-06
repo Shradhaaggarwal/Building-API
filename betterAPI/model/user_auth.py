@@ -2,10 +2,12 @@ from functools import wraps
 from flask import make_response, request;
 import re, jwt
 import mysql.connector
+from config.config import dbconfig
+
 class userAuth_M:
     def __init__(self):
         try:
-            self.conn = mysql.connector.connect(host="localhost", user="Shradha", password="Shradha1402@", database="learningapi")
+            self.conn = mysql.connector.connect(host=dbconfig['host'], user=dbconfig['user'], password= dbconfig['password'] , database=dbconfig['database'])
             self.curr = self.conn.cursor(dictionary=True)
             self.conn.autocommit = True
             print("Connection Successful")
